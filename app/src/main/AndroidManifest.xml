@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ctf.hauntedhotel">
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.HauntedHotel"
+        android:usesCleartextTraffic="true">
+
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.HauntedHotel">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".Room101Activity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Room102Activity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Room103Activity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Room104Activity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Room105Activity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Room106Activity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Room107Activity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Room108Activity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".CheckoutSuccessActivity"
+            android:exported="false"
+            android:theme="@style/Theme.HauntedHotel.Transparent"/>
+
+    </application>
+</manifest>

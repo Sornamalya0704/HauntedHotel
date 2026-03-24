@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark Theme Colors -->
+    <color name="dark_bg">#0a0a0f</color>
+    <color name="darker_bg">#050507</color>
+    <color name="dark_red">#8B0000</color>
+    <color name="blood_red">#660000</color>
+    <color name="gold">#D4A373</color>
+    <color name="wood">#5D3A1A</color>
+    <color name="dark_wood">#3A2A1A</color>
+    <color name="ghost_white">#E9E9E9</color>
+    <color name="fog">#886666</color>
+    <color name="success_green">#2C5A2C</color>
+    <color name="error_red">#AA2E2E</color>
+    <color name="card_bg">#1E1E2A</color>
+    <color name="input_bg">#2A2A35</color>
+    <color name="divider">#8B0000</color>
+
+    <!-- Room Background Colors -->
+    <color name="room_101_bg">#0F0F1A</color>
+    <color name="room_102_bg">#0F0F1A</color>
+    <color name="room_103_bg">#0F0F1A</color>
+    <color name="room_104_bg">#0F0F1A</color>
+    <color name="room_105_bg">#0F0F1A</color>
+    <color name="room_106_bg">#0F0F1A</color>
+    <color name="room_107_bg">#0F0F1A</color>
+    <color name="room_108_bg">#0F0F1A</color>
+</resources>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_bg">
+
+    <ImageView
+        android:id="@+id/hotelImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/hotel_splash"
+        android:alpha="0.9"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#88000000"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/hotelName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/splash_text"
+            android:textColor="@color/gold"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            android:gravity="center"
+            android:shadowColor="@color/dark_red"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="3"/>
+
+        <TextView
+            android:id="@+id/hotelTagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/splash_subtitle"
+            android:textColor="@color/dark_red"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:layout_marginTop="15dp"
+            android:visibility="invisible"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

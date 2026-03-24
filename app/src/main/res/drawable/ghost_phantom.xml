@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="90dp"
+    android:height="90dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+
+    <!-- Ghost Body -->
+    <path
+        android:fillColor="#CCCCCC"
+        android:fillAlpha="0.9"
+        android:pathData="M50,20 L70,35 L70,60 L60,70 L50,80 L40,70 L30,60 L30,35 Z"/>
+
+    <!-- Eyes -->
+    <path
+        android:fillColor="#222222"
+        android:pathData="M38,48 L42,48 L42,52 L38,52 Z M58,48 L62,48 L62,52 L58,52 Z"/>
+
+    <!-- Mouth (sad) -->
+    <path
+        android:fillColor="#FF6666"
+        android:pathData="M45,60 L55,60 L50,65 Z"/>
+
+</vector>

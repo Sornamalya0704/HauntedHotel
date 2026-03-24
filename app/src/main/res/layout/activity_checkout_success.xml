@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CC000000"
+    android:gravity="center">
+
+    <LinearLayout
+        android:id="@+id/receiptContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="32dp"
+        android:orientation="vertical"
+        android:background="@drawable/receipt_bg"
+        android:padding="24dp"
+        android:elevation="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/receipt_title"
+            android:textSize="20sp"
+            android:textColor="#8B4513"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginBottom="15dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#8B4513"
+            android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:id="@+id/receiptGuest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guest: "
+            android:textSize="16sp"
+            android:textColor="#5D3A1A"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:id="@+id/receiptRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Room: "
+            android:textSize="16sp"
+            android:textColor="#5D3A1A"
+            android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/confirmation_label"
+            android:textSize="12sp"
+            android:textColor="#8B0000"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:id="@+id/receiptFlag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CTF{...}"
+            android:textSize="12sp"
+            android:textColor="#000000"
+            android:fontFamily="monospace"
+            android:background="#F0F0F0"
+            android:padding="12dp"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"/>
+
+        <Button
+            android:id="@+id/collectEvidenceBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/collect_evidence"
+            android:backgroundTint="#5D3A1A"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/backToLobbyBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/return_lobby"
+            android:backgroundTint="#8B4513"
+            android:textColor="#FFFFFF"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

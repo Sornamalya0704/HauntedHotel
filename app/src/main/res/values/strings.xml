@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Haunted Hotel</string>
+    <string name="splash_text">GRAND VICTORIA HOTEL</string>
+    <string name="splash_subtitle">Where guests check in... but never check out</string>
+    <string name="lobby_title">GRAND VICTORIA HOTEL</string>
+    <string name="counter_label">GUESTS FREED</string>
+    <string name="back_button">← BACK</string>
+    <string name="checkout_button">📝 CHECK OUT</string>
+    <string name="flag_hint">Enter Check-out Code</string>
+    <string name="wrong_flag">❌ Wrong code! The ghost shakes its head...</string>
+    <string name="correct_flag">✨ The ghost fades away with a smile! ✨</string>
+    <string name="locked_message">😤 The ghost is angry! Try again in %d seconds...</string>
+    <string name="receipt_title">🧾 CHECK-OUT RECEIPT</string>
+    <string name="guest_label">Guest:</string>
+    <string name="room_label">Room:</string>
+    <string name="confirmation_label">Confirmation Code:</string>
+    <string name="collect_evidence">📎 COLLECT EVIDENCE</string>
+    <string name="return_lobby">🏨 RETURN TO LOBBY</string>
+    <string name="footer_hint">Tap ENTER to investigate a room</string>
+    <string name="already_checked_out">This room is already vacant. The ghost has moved on.</string>
+</resources>
