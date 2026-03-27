@@ -40,8 +40,12 @@ public class Room106Activity extends AppCompatActivity {
     private MediaPlayer successPlayer;
     private MediaPlayer whisperPlayer;
 
-    // PLACEHOLDER FLAG - Replace with real flag later
-    private static final String CORRECT_FLAG = "test123";
+    private String correctFlag;
+
+    static {
+        System.loadLibrary("flag106");
+    }
+    private native String getFlagFromNative();
 
     private static final int ROOM_NUM = 106;
     private static final String GHOST_NAME = "The Collector";
@@ -50,7 +54,7 @@ public class Room106Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_template);
-
+        correctFlag = getFlagFromNative();
         prefs = getSharedPreferences("hotel_evidence", Context.MODE_PRIVATE);
 
         if (prefs.getBoolean("room" + ROOM_NUM + "_checkedout", false)) {
@@ -184,7 +188,7 @@ public class Room106Activity extends AppCompatActivity {
             return;
         }
         String enteredFlag = flagInput.getText().toString().trim();
-        if (enteredFlag.equals(CORRECT_FLAG)) {
+        if (enteredFlag.equals(correctFlag)) {
             handleCorrectFlag();
         } else {
             handleWrongFlag();
@@ -215,7 +219,7 @@ public class Room106Activity extends AppCompatActivity {
             Intent intent = new Intent(Room106Activity.this, CheckoutSuccessActivity.class);
             intent.putExtra("ROOM_NUMBER", ROOM_NUM);
             intent.putExtra("ROOM_NAME", GHOST_NAME);
-            intent.putExtra("FLAG", CORRECT_FLAG);
+            intent.putExtra("FLAG", correctFlag);
             startActivity(intent);
             finish();
         }, 2000);
