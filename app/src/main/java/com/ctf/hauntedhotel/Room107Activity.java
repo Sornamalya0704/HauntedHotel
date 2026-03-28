@@ -19,6 +19,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.InputStream;
+
 
 public class Room107Activity extends AppCompatActivity {
 
@@ -35,16 +40,18 @@ public class Room107Activity extends AppCompatActivity {
     private int failedAttempts = 0;
     private boolean isLocked = false;
     private SharedPreferences prefs;
+    private String correctFlag;
 
     private MediaPlayer thunderPlayer;
     private MediaPlayer successPlayer;
     private MediaPlayer whisperPlayer;
 
-    // PLACEHOLDER FLAG - Replace with real flag later
-    private static final String CORRECT_FLAG = "test123";
+
 
     private static final int ROOM_NUM = 107;
     private static final String GHOST_NAME = "The Apparition";
+
+    private static final byte XOR_KEY = 0x42;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,6 +184,55 @@ public class Room107Activity extends AppCompatActivity {
         }
         progressText.setText(checkedOut + "/8 GUESTS");
     }
+    private byte[] readAsset(String filename) {
+        try {
+            InputStream is = getAssets().open(filename);
+            byte[] data = new byte[is.available()];
+            is.read(data);
+            is.close();
+            return data;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    private String xorDecrypt(byte[] encrypted, byte key) {
+        byte[] decrypted = new byte[encrypted.length];
+        for (int i = 0; i < encrypted.length; i++) {
+            decrypted[i] = (byte)(encrypted[i] ^ key);
+        }
+        return new String(decrypted);
+    }
+    private String getAESKey() {
+        byte[] encryptedKey = readAsset("key.dat");
+        if (encryptedKey == null) return "DEFAULT_KEY";
+        return xorDecrypt(encryptedKey, XOR_KEY);
+    }
+    private String getAESIV() {
+        byte[] encryptedIV = readAsset("iv.dat");
+        if (encryptedIV == null) return "DEFAULT_IV";
+        return xorDecrypt(encryptedIV, XOR_KEY);
+    }
+    private String getFlagFromAsset() {
+        try {
+            byte[] encrypted = readAsset("flag107.dat");
+            if (encrypted == null) return "FLAG_NOT_FOUND";
+
+            String key = getAESKey();
+            String iv = getAESIV();
+
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
+            IvParameterSpec ivSpec = new IvParameterSpec(iv.getBytes());
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
+
+            byte[] decrypted = cipher.doFinal(encrypted);
+            return new String(decrypted);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "FLAG_NOT_FOUND";
+        }
+    }
 
     private void checkFlag() {
         if (isLocked) {
@@ -184,7 +240,8 @@ public class Room107Activity extends AppCompatActivity {
             return;
         }
         String enteredFlag = flagInput.getText().toString().trim();
-        if (enteredFlag.equals(CORRECT_FLAG)) {
+        correctFlag = getFlagFromAsset();
+        if (enteredFlag.equals(correctFlag)) {
             handleCorrectFlag();
         } else {
             handleWrongFlag();
@@ -215,7 +272,7 @@ public class Room107Activity extends AppCompatActivity {
             Intent intent = new Intent(Room107Activity.this, CheckoutSuccessActivity.class);
             intent.putExtra("ROOM_NUMBER", ROOM_NUM);
             intent.putExtra("ROOM_NAME", GHOST_NAME);
-            intent.putExtra("FLAG", CORRECT_FLAG);
+            intent.putExtra("FLAG",correctFlag);
             startActivity(intent);
             finish();
         }, 2000);
