@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Room108Activity extends AppCompatActivity {
 
+    // UI Elements
     private TextView ghostMessage;
     private EditText flagInput;
     private Button checkoutButton;
@@ -32,16 +33,18 @@ public class Room108Activity extends AppCompatActivity {
     private TextView ghostName;
     private TextView progressText;
 
+    // Game State
     private int failedAttempts = 0;
     private boolean isLocked = false;
     private SharedPreferences prefs;
 
+    // Sound Players
     private MediaPlayer thunderPlayer;
     private MediaPlayer successPlayer;
     private MediaPlayer whisperPlayer;
 
-    // PLACEHOLDER FLAG - Replace with real flag later
-    private static final String CORRECT_FLAG = "test123";
+    // Database Helper
+    private FlagDatabaseHelper dbHelper;
 
     private static final int ROOM_NUM = 108;
     private static final String GHOST_NAME = "The Final Truth";
@@ -58,6 +61,9 @@ public class Room108Activity extends AppCompatActivity {
             return;
         }
 
+        // Initialize database helper
+        dbHelper = new FlagDatabaseHelper(this);
+
         initializeViews();
         setupRoomDetails();
         setupListeners();
@@ -65,6 +71,9 @@ public class Room108Activity extends AppCompatActivity {
         startGhostAnimation();
         playThunderWithVibration();
         updateProgressCounter();
+
+        // Display hint
+        ghostMessage.setText("👻 \"The truth is in the hotel's guest registry...\" 👻");
     }
 
     private void initializeViews() {
@@ -178,26 +187,39 @@ public class Room108Activity extends AppCompatActivity {
         progressText.setText(checkedOut + "/8 GUESTS");
     }
 
+    // Get flag from pre-created database
+    private String getFlagFromDatabase() {
+        if (dbHelper == null) {
+            return "DATABASE_ERROR";
+        }
+        return dbHelper.getFlag();
+    }
+
     private void checkFlag() {
         if (isLocked) {
             Toast.makeText(this, "The ghost is angry! Wait a moment...", Toast.LENGTH_SHORT).show();
             return;
         }
+
         String enteredFlag = flagInput.getText().toString().trim();
-        if (enteredFlag.equals(CORRECT_FLAG)) {
-            handleCorrectFlag();
+        String correctFlag = getFlagFromDatabase();  // Flag from pre-created database!
+
+        if (enteredFlag.equals(correctFlag)) {
+            handleCorrectFlag(correctFlag);
         } else {
             handleWrongFlag();
         }
     }
 
-    private void handleCorrectFlag() {
+    private void handleCorrectFlag(String flag) {
         playSuccessSound();
+
         AlphaAnimation fadeOut = new AlphaAnimation(1.0f, 0.0f);
         fadeOut.setDuration(1000);
         fadeOut.setFillAfter(true);
         ghostImage.startAnimation(fadeOut);
         ghostImage.setVisibility(View.INVISIBLE);
+
         RotateAnimation rotateDoor = new RotateAnimation(0, 90,
                 RotateAnimation.RELATIVE_TO_SELF, 0f,
                 RotateAnimation.RELATIVE_TO_SELF, 0.5f);
@@ -205,17 +227,22 @@ public class Room108Activity extends AppCompatActivity {
         rotateDoor.setFillAfter(true);
         doorView.startAnimation(rotateDoor);
         doorView.setVisibility(View.INVISIBLE);
-        ghostMessage.setText("✨ \"Thank you... I can finally rest...\" ✨");
+
+        ghostMessage.setText("✨ \"The guest registry reveals the truth... I can finally rest...\" ✨");
         ghostMessage.setTextColor(0xFF4CAF50);
+
         flagInput.setEnabled(false);
         checkoutButton.setEnabled(false);
+
         prefs.edit().putBoolean("room" + ROOM_NUM + "_checkedout", true).apply();
-        Toast.makeText(this, "✨ The ghost fades away with a smile! ✨", Toast.LENGTH_LONG).show();
+
+        Toast.makeText(this, "✨ The truth from the registry sets the spirit free! ✨", Toast.LENGTH_LONG).show();
+
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(Room108Activity.this, CheckoutSuccessActivity.class);
             intent.putExtra("ROOM_NUMBER", ROOM_NUM);
             intent.putExtra("ROOM_NAME", GHOST_NAME);
-            intent.putExtra("FLAG", CORRECT_FLAG);
+            intent.putExtra("FLAG", flag);
             startActivity(intent);
             finish();
         }, 2000);
@@ -223,24 +250,30 @@ public class Room108Activity extends AppCompatActivity {
 
     private void handleWrongFlag() {
         failedAttempts++;
+
         playWhisperSound();
+
         TranslateAnimation shake = new TranslateAnimation(-10, 10, 0, 0);
         shake.setDuration(100);
         shake.setRepeatCount(5);
         shake.setRepeatMode(Animation.REVERSE);
+
         flagInput.startAnimation(shake);
         ghostImage.startAnimation(shake);
         doorView.startAnimation(shake);
-        Toast.makeText(this, "❌ Wrong code! The ghost shakes its head...", Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(this, "❌ Wrong code! The hotel's guest registry holds the secret...", Toast.LENGTH_SHORT).show();
+
         if (failedAttempts == 1) {
-            ghostMessage.setText("👻 \"That's not right... Try again...\" 👻");
+            ghostMessage.setText("👻 \"Check the hotel's guest registry database...\" 👻");
             ghostMessage.setTextColor(0xFFFF6666);
         } else if (failedAttempts == 2) {
-            ghostMessage.setText("😠 \"You're disturbing my peace...\" 😠");
+            ghostMessage.setText("😠 \"Look in /data/data/com.ctf.hauntedhotel/databases/\" 😠");
             ghostImage.setAlpha(0.8f);
         } else if (failedAttempts >= 3) {
             lockRoom(30000);
         }
+
         flagInput.setText("");
     }
 
@@ -248,9 +281,12 @@ public class Room108Activity extends AppCompatActivity {
         isLocked = true;
         flagInput.setEnabled(false);
         checkoutButton.setEnabled(false);
-        ghostMessage.setText("😤 \"ENOUGH! I need time to calm down...\" 😤");
+
+        ghostMessage.setText("😤 \"ENOUGH! The secret is in the database...\" 😤");
         ghostMessage.setTextColor(0xFFFF0000);
+
         final int seconds = durationMillis / 1000;
+
         new Thread(() -> {
             for (int i = seconds; i > 0; i--) {
                 final int remaining = i;
@@ -264,7 +300,7 @@ public class Room108Activity extends AppCompatActivity {
                 flagInput.setEnabled(true);
                 checkoutButton.setEnabled(true);
                 flagInput.setText("");
-                ghostMessage.setText("👻 \"Try again... but be respectful...\" 👻");
+                ghostMessage.setText("👻 \"Find hotel_secrets.db and query flag108 table...\" 👻");
                 ghostMessage.setTextColor(0xFFCCCCCC);
                 ghostImage.setAlpha(1.0f);
                 failedAttempts = 0;
@@ -277,7 +313,7 @@ public class Room108Activity extends AppCompatActivity {
         findViewById(R.id.flagInput).setVisibility(View.GONE);
         findViewById(R.id.checkoutButton).setVisibility(View.GONE);
         TextView msg = findViewById(R.id.ghostMessage);
-        msg.setText("This room is now vacant.\nThe ghost has moved on.");
+        msg.setText("The guest registry has been updated.\nThe spirit is free.");
         msg.setTextColor(0xFF4CAF50);
         Button back = findViewById(R.id.backButton);
         back.setOnClickListener(v -> finish());
@@ -289,5 +325,6 @@ public class Room108Activity extends AppCompatActivity {
         if (thunderPlayer != null) { thunderPlayer.release(); thunderPlayer = null; }
         if (successPlayer != null) { successPlayer.release(); successPlayer = null; }
         if (whisperPlayer != null) { whisperPlayer.release(); whisperPlayer = null; }
+        if (dbHelper != null) { dbHelper.close(); }
     }
 }
